@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeaveManagement.Data
 {
-    public class LeaveHistory
+    public class LeaveRequest
     {
         public int Id { get; set; }
 

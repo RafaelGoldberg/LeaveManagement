@@ -1,0 +1,118 @@
+﻿@model AdminLeaveRequestViewVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Leave Requests</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3 text-center" >
+            <div class="card-header">Total Requests</div>
+            <div class="card-body">
+                <h1 class="card-title">@Model.TotalRequests</h1>
+            </div>
+            </div>
+        </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3 text-center">
+            <div class="card-header">Pending Requets</div>
+            <div class="card-body">
+                <h1 class="card-title">@Model.PendingRequests</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3 text-center">
+            <div class="card-header">Approved Requests</div>
+            <div class="card-body">
+                <h1 class="card-title">@Model.ApprovedRequests</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3 text-center">
+            <div class="card-header">Rejected Requests</div>
+            <div class="card-body">
+                <h1 class="card-title">@Model.RejectedRequested</h1>
+            </div>
+        </div>
+    </div>
+    </div>
+<p>
+    <a class="btn btn-dark btn-block" asp-action="Create">Create New</a>
+</p>
+<table class="table" id="tblData">
+    <thead>
+        <tr>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Date Requested
+            </th>
+            <th>
+                Approval Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LiveRequests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestingEmployee.FirstName)  @Html.DisplayFor(modelItem => item.RequestingEmployee.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateRequested)
+                </td>
+
+                <td>
+                    @if (item.Approved == true)
+                    {
+                        <span class="badge badge-success">Approved</span>
+                    }
+                    else if (item.Approved == false)
+                    {
+                        <span class="badge badge-danger">Rejected</span>
+                    }
+                    else if (item.Approved == null)
+                    {
+                        <span class="badge badge-warning">Pending</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Review</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready( function () {
+        $('#tblData').DataTable();
+    } );
+    </script>
+}
